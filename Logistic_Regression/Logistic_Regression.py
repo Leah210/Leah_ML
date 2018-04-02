@@ -108,12 +108,17 @@ def GradientDescend(Data, theta, batch_size, stopType, threshold, alpha):
     return theta, cost_value, iter_num-1, grad      # 此处返回grad是最后一次计算的梯度
 
 theta, cost_value, iter_num, grad = GradientDescend(orig_data, theta, N, STOP_ITER, threshold=5000, alpha=0.000001)
-print theta, '\n', '\n', cost_value
+print theta, '\n', '\n'#, cost_value
 
-def prediction (X, theta):
-    return [1 if x > 0.5 else 0 for x in model(X, theta)]
+def prediction (X, theta, pred_threshold):
+    return [1 if x > pred_threshold else 0 for x in model(X, theta)]        # 返回的是Ture/False
 
-def accuracy(predict, X, theta):
-    pred = prediction(X, theta)
-    X["pred"] = pred
-    correct = [1 if ()]
+def accuracy(X, theta, pred_threshold, Y):
+    pred = prediction(X, theta, pred_threshold)
+    correct = [1 if ((a == 1 and b == 1) or (a == 0 and b == 0)) else 0 for (a, b) in zip(pred, Y)]
+    accuracy_rs = (sum(map(float, correct))) / len(map(float, correct)) *100
+    return accuracy_rs
+
+# print 'The accuracy is: ' + str(accuracy(X, theta, 0.5, Y))
+print ('accuracy = {0}%'.format(accuracy(X, theta, 0.5, Y)))
+
